@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <rect width="32" height="32" rx="7" fill="#0f766e"/>
+  <!-- Mortarboard Hat Top -->
+  <path d="M16 6L5 11L16 16L27 11L16 6Z" fill="#ffffff"/>
+  <!-- Mortarboard Hat Base -->
+  <path d="M9 13.5V18.5C9 20.8 12.1 22.5 16 22.5C19.9 22.5 23 20.8 23 18.5V13.5L16 16.5L9 13.5Z" fill="#a3faef"/>
+  <!-- Golden Tassel Accent representing quality/gold rating -->
+  <path d="M25 11.5V19" stroke="#f59e0b" stroke-width="1.8" stroke-linecap="round"/>
+  <circle cx="25" cy="20" r="1.5" fill="#f59e0b"/>
+</svg>
