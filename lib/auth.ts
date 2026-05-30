@@ -47,7 +47,15 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.id;
+        // Query database by email to retrieve the user's true internal database cuid
+        const dbUser = await prisma.user.findUnique({
+          where: { email: user.email! },
+        });
+        if (dbUser) {
+          token.id = dbUser.id;
+        } else {
+          token.id = user.id;
+        }
       }
       return token;
     },
