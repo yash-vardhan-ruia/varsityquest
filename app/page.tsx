@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
 import { GraduationCap, Search, ArrowRight, ShieldCheck, BarChart2, Star, Users } from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -22,6 +23,17 @@ const categoryBadgeClass: Record<string, string> = {
 export default function Home() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
+
+  const { data: statsData } = useQuery({
+    queryKey: ["homeStats"],
+    queryFn: async () => {
+      const res = await fetch("/api/stats");
+      if (!res.ok) throw new Error("Failed to fetch stats");
+      return res.json();
+    },
+  });
+
+  const stats = statsData?.data || { colleges: 52, streams: 6, states: 9 };
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -145,15 +157,21 @@ export default function Home() {
           {/* Database quick stats */}
           <div className="grid grid-cols-3 gap-4 max-w-lg mx-auto pt-6 text-center text-xs font-bold text-on-surface-variant">
             <div className="space-y-1">
-              <p className="text-xl font-bold text-primary-container">52</p>
+              <p className="text-xl font-bold text-primary-container">
+                {statsData ? stats.colleges : <span className="animate-pulse">--</span>}
+              </p>
               <p className="uppercase tracking-wider text-[10px]">Prestigious Colleges</p>
             </div>
             <div className="space-y-1 border-l border-surface-container">
-              <p className="text-xl font-bold text-primary-container">6</p>
+              <p className="text-xl font-bold text-primary-container">
+                {statsData ? stats.streams : <span className="animate-pulse">--</span>}
+              </p>
               <p className="uppercase tracking-wider text-[10px]">Academic Streams</p>
             </div>
             <div className="space-y-1 border-l border-surface-container">
-              <p className="text-xl font-bold text-primary-container">9</p>
+              <p className="text-xl font-bold text-primary-container">
+                {statsData ? stats.states : <span className="animate-pulse">--</span>}
+              </p>
               <p className="uppercase tracking-wider text-[10px]">Indian States</p>
             </div>
           </div>
