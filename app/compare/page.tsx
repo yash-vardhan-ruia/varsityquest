@@ -95,6 +95,11 @@ function CompareContent() {
   const [label, setLabel] = useState("");
   const [isSaving, setIsSaving] = useState(false);
   const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
+  const [mounted, setMounted] = useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Fetch comparison data
   const { data: comparisonResponse, isLoading, error } = useQuery<{
@@ -290,7 +295,7 @@ function CompareContent() {
                       <div className="space-y-2">
                         {/* College image with dynamic brand-colored gradient fallback */}
                         <div className="relative w-full h-24 rounded-sm overflow-hidden bg-surface-container flex items-center justify-center border border-outline-variant-custom/30 shadow-sm">
-                          {!imageErrors[college.id] && college.imageUrl ? (
+                          {!imageErrors[college.id] && college.imageUrl && mounted ? (
                             /* eslint-disable-next-line @next/next/no-img-element */
                             <img
                               src={college.imageUrl}
