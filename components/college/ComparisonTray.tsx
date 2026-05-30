@@ -6,9 +6,48 @@ import { X, ArrowRight, BarChart2 } from "lucide-react";
 import { useComparisonStore } from "@/store/comparisonStore";
 import Button from "../ui/Button";
 
+const categoryStyleMap: Record<string, { bg: string; text: string; label: string }> = {
+  Engineering: {
+    bg: "from-teal-400/20 to-teal-500/30",
+    text: "text-teal-800",
+    label: "Eng",
+  },
+  Medical: {
+    bg: "from-emerald-400/20 to-emerald-500/30",
+    text: "text-emerald-800",
+    label: "Med",
+  },
+  Management: {
+    bg: "from-blue-400/20 to-blue-500/30",
+    text: "text-blue-800",
+    label: "Mgmt",
+  },
+  Law: {
+    bg: "from-purple-400/20 to-purple-500/30",
+    text: "text-purple-800",
+    label: "Law",
+  },
+  Arts: {
+    bg: "from-amber-400/20 to-amber-500/30",
+    text: "text-amber-800",
+    label: "Arts",
+  },
+  Commerce: {
+    bg: "from-rose-400/20 to-rose-500/30",
+    text: "text-rose-800",
+    label: "Comm",
+  },
+};
+
 export default function ComparisonTray() {
   const router = useRouter();
   const { colleges, removeCollege, setIsOpen, clear } = useComparisonStore();
+  const [imageErrors, setImageErrors] = React.useState<Record<string, boolean>>({});
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // If no colleges are selected, hide the tray
   if (colleges.length === 0) return null;
@@ -46,13 +85,27 @@ export default function ComparisonTray() {
                 key={college.id}
                 className="flex items-center gap-2 bg-surface-low border border-outline-variant-custom/40 px-3 py-1.5 rounded-sm shadow-level1 transition-all hover:bg-surface-container"
               >
-                {college.imageUrl && (
+                {college.imageUrl && !imageErrors[college.id] && mounted ? (
                   /* eslint-disable-next-line @next/next/no-img-element */
                   <img
                     src={college.imageUrl}
                     alt={college.name}
-                    className="w-6 h-6 object-cover rounded-full"
+                    className="w-6 h-6 object-cover rounded-full flex-shrink-0"
+                    onError={() =>
+                      setImageErrors((prev) => ({
+                        ...prev,
+                        [college.id]: true,
+                      }))
+                    }
                   />
+                ) : (
+                  <div
+                    className={`w-6 h-6 rounded-full flex items-center justify-center text-[8px] font-extrabold tracking-tighter uppercase flex-shrink-0 bg-gradient-to-br ${
+                      categoryStyleMap[college.category]?.bg || "from-slate-100 to-slate-200"
+                    } ${categoryStyleMap[college.category]?.text || "text-slate-700"}`}
+                  >
+                    {categoryStyleMap[college.category]?.label || "Col"}
+                  </div>
                 )}
                 <span className="text-xs font-semibold text-on-surface truncate max-w-[120px] md:max-w-[180px]">
                   {college.name}
