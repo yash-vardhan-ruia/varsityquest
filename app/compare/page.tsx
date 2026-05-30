@@ -2,7 +2,7 @@
 
 import React, { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { ArrowLeft, Share2, Bookmark, BarChart2, Star, IndianRupee, GraduationCap, X, Building2 } from "lucide-react";
 import toast from "react-hot-toast";
@@ -87,6 +87,7 @@ function CompareContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { data: session } = useSession();
+  const queryClient = useQueryClient();
 
 
   const idsParam = searchParams.get("ids") || "";
@@ -151,6 +152,8 @@ function CompareContent() {
 
       toast.success("Comparison saved to dashboard!");
       setLabel("");
+      queryClient.invalidateQueries({ queryKey: ["savedComparisons"] });
+      router.refresh();
     } catch (err: unknown) {
       console.error("Save comparison error:", err);
       const message = err instanceof Error ? err.message : "Failed to save comparison";
