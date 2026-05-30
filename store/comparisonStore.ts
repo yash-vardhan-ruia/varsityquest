@@ -34,8 +34,8 @@ export const useComparisonStore = create<ComparisonState>()(
         }
 
         // Check limit
-        if (colleges.length >= 3) {
-          toast.error("You can select a maximum of 3 colleges to compare");
+        if (colleges.length >= 4) {
+          toast.error("You can select a maximum of 4 colleges to compare");
           return;
         }
 

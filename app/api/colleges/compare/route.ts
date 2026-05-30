@@ -26,9 +26,9 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    if (collegeIds.length > 3) {
+    if (collegeIds.length > 4) {
       return NextResponse.json(
-        { success: false, error: "You can compare a maximum of 3 colleges at a time" },
+        { success: false, error: "You can compare a maximum of 4 colleges at a time" },
         { status: 400 }
       );
     }

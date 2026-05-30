@@ -16,7 +16,7 @@ export default function ComparisonTray() {
   const handleCompareClick = () => {
     const ids = colleges.map((c) => c.id).join(",");
     router.push(`/compare?ids=${ids}`);
-    setIsOpen(false);
+    clear();
   };
 
   return (
@@ -34,7 +34,7 @@ export default function ComparisonTray() {
                 Comparison Queue
               </h4>
               <p className="text-xs text-on-surface-variant">
-                Select 2 or 3 colleges to compare ({colleges.length} selected)
+                Select 2 to 4 colleges to compare ({colleges.length} selected)
               </p>
             </div>
           </div>

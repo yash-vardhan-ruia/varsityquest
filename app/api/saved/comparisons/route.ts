@@ -71,9 +71,9 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { collegeIds, label } = body;
 
-    if (!collegeIds || !Array.isArray(collegeIds) || collegeIds.length < 2 || collegeIds.length > 3) {
+    if (!collegeIds || !Array.isArray(collegeIds) || collegeIds.length < 2 || collegeIds.length > 4) {
       return NextResponse.json(
-        { success: false, error: "collegeIds must be an array containing 2 to 3 valid college IDs" },
+        { success: false, error: "collegeIds must be an array containing 2 to 4 valid college IDs" },
         { status: 400 }
       );
     }
