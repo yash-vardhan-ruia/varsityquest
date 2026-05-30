@@ -37,6 +37,21 @@ export default function DashboardPage() {
   const [profileImage, setProfileImage] = useState("");
   const [isUpdatingProfile, setIsUpdatingProfile] = useState(false);
 
+  // Security & Password States
+  const [activeTab, setActiveTab] = useState<"profile" | "security">("profile");
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [isChangingPassword, setIsChangingPassword] = useState(false);
+
+  const closeSettings = () => {
+    setIsEditProfileOpen(false);
+    setActiveTab("profile");
+    setCurrentPassword("");
+    setNewPassword("");
+    setConfirmPassword("");
+  };
+
   useEffect(() => {
     if (session?.user) {
       setProfileName(session.user.name || "");
@@ -86,12 +101,48 @@ export default function DashboardPage() {
       });
 
       toast.success("Profile updated successfully!");
-      setIsEditProfileOpen(false);
+      closeSettings();
     } catch (err: unknown) {
       console.error(err);
       toast.error(err instanceof Error ? err.message : "Failed to update profile");
     } finally {
       setIsUpdatingProfile(false);
+    }
+  };
+
+  const handleChangePassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newPassword.length < 6) {
+      toast.error("New password must be at least 6 characters long");
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      toast.error("New passwords do not match");
+      return;
+    }
+
+    setIsChangingPassword(true);
+    try {
+      const res = await fetch("/api/user/change-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          currentPassword,
+          newPassword,
+          confirmPassword,
+        }),
+      });
+
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || "Failed to update password");
+
+      toast.success(json.message || "Password updated successfully!");
+      closeSettings();
+    } catch (err: unknown) {
+      console.error(err);
+      toast.error(err instanceof Error ? err.message : "Failed to update password");
+    } finally {
+      setIsChangingPassword(false);
     }
   };
 
@@ -356,111 +407,212 @@ export default function DashboardPage() {
 
       </main>
 
-      {/* Edit Profile Modal */}
+      {/* Account Settings Modal */}
       {isEditProfileOpen && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in">
-          <div className="bg-white border border-outline-variant-custom/40 rounded-2xl shadow-level3 max-w-md w-full overflow-hidden p-6 space-y-6">
+          <div className="bg-white border border-outline-variant-custom/40 rounded-2xl shadow-level3 max-w-md w-full overflow-hidden p-6 space-y-5">
             <div className="flex justify-between items-center border-b border-surface-container pb-3">
-              <h3 className="font-bold text-headline-sm text-on-surface">Edit Profile</h3>
+              <h3 className="font-bold text-headline-sm text-on-surface">Account Settings</h3>
               <button
-                onClick={() => setIsEditProfileOpen(false)}
+                onClick={closeSettings}
                 className="text-on-surface-variant hover:text-on-surface font-bold text-sm"
               >
                 ✕
               </button>
             </div>
 
-            <form onSubmit={handleSaveProfile} className="space-y-4 text-xs font-semibold">
-              {/* Avatar Preview & Upload */}
-              <div className="flex flex-col items-center gap-3 bg-surface-low p-4 rounded-lg border border-outline-variant-custom/20">
-                <div className="relative">
-                  {profileImage ? (
-                    /* eslint-disable-next-line @next/next/no-img-element */
-                    <img
-                      src={profileImage}
-                      alt="Avatar Preview"
-                      className="h-20 w-20 rounded-full border border-outline-variant-custom object-cover shadow-md"
-                    />
-                  ) : (
-                    <div className="h-20 w-20 rounded-full bg-secondary-container text-primary-container flex items-center justify-center font-bold text-3xl shadow-md border border-outline-variant-custom/20">
-                      {profileName?.charAt(0).toUpperCase() || "S"}
-                    </div>
-                  )}
-                  {profileImage && (
-                    <button
-                      type="button"
-                      onClick={() => setProfileImage("")}
-                      className="absolute -top-1 -right-1 bg-error text-white rounded-full p-1 text-[8px] hover:bg-error-hover leading-none shadow-sm"
-                      aria-label="Remove image"
-                    >
-                      ✕
-                    </button>
-                  )}
+            {/* Modal Tabs */}
+            <div className="flex border-b border-surface-container text-xs font-bold gap-4">
+              <button
+                type="button"
+                onClick={() => setActiveTab("profile")}
+                className={`pb-2 text-center border-b-2 transition-all ${
+                  activeTab === "profile"
+                    ? "border-primary-container text-primary-container"
+                    : "border-transparent text-on-surface-variant hover:text-on-surface"
+                }`}
+              >
+                Profile Details
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab("security")}
+                className={`pb-2 text-center border-b-2 transition-all ${
+                  activeTab === "security"
+                    ? "border-primary-container text-primary-container"
+                    : "border-transparent text-on-surface-variant hover:text-on-surface"
+                }`}
+              >
+                Security & Password
+              </button>
+            </div>
+
+            {activeTab === "profile" ? (
+              <form onSubmit={handleSaveProfile} className="space-y-4 text-xs font-semibold">
+                {/* Avatar Preview & Upload */}
+                <div className="flex flex-col items-center gap-3 bg-surface-low p-4 rounded-lg border border-outline-variant-custom/20">
+                  <div className="relative">
+                    {profileImage ? (
+                      /* eslint-disable-next-line @next/next/no-img-element */
+                      <img
+                        src={profileImage}
+                        alt="Avatar Preview"
+                        className="h-20 w-20 rounded-full border border-outline-variant-custom object-cover shadow-md"
+                      />
+                    ) : (
+                      <div className="h-20 w-20 rounded-full bg-secondary-container text-primary-container flex items-center justify-center font-bold text-3xl shadow-md border border-outline-variant-custom/20">
+                        {profileName?.charAt(0).toUpperCase() || "S"}
+                      </div>
+                    )}
+                    {profileImage && (
+                      <button
+                        type="button"
+                        onClick={() => setProfileImage("")}
+                        className="absolute -top-1 -right-1 bg-error text-white rounded-full p-1 text-[8px] hover:bg-error-hover leading-none shadow-sm"
+                        aria-label="Remove image"
+                      >
+                        ✕
+                      </button>
+                    )}
+                  </div>
+                  
+                  <div className="flex flex-col items-center gap-1">
+                    <label className="cursor-pointer text-xs font-bold text-primary-container hover:underline">
+                      Upload Profile Image
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleFileChange}
+                        className="hidden"
+                      />
+                    </label>
+                    <span className="text-[10px] text-on-surface-variant font-medium">Max size 1MB (PNG, JPG)</span>
+                  </div>
                 </div>
-                
-                <div className="flex flex-col items-center gap-1">
-                  <label className="cursor-pointer text-xs font-bold text-primary-container hover:underline">
-                    Upload Profile Image
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleFileChange}
-                      className="hidden"
-                    />
+
+                {/* Name Input */}
+                <div className="space-y-1">
+                  <label htmlFor="profileName" className="text-on-surface-variant text-[10px] font-bold uppercase tracking-wider block">
+                    Display Name
                   </label>
-                  <span className="text-[10px] text-on-surface-variant font-medium">Max size 1MB (PNG, JPG)</span>
+                  <input
+                    type="text"
+                    id="profileName"
+                    required
+                    value={profileName}
+                    onChange={(e) => setProfileName(e.target.value)}
+                    className="w-full bg-white border border-outline-variant-custom rounded p-2.5 text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-primary-container"
+                  />
                 </div>
-              </div>
 
-              {/* Name Input */}
-              <div className="space-y-1">
-                <label htmlFor="profileName" className="text-on-surface-variant text-[10px] font-bold uppercase tracking-wider block">
-                  Display Name
-                </label>
-                <input
-                  type="text"
-                  id="profileName"
-                  required
-                  value={profileName}
-                  onChange={(e) => setProfileName(e.target.value)}
-                  className="w-full bg-white border border-outline-variant-custom rounded p-2.5 text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-primary-container"
-                />
-              </div>
+                {/* Image URL Input (Fallback/Alternative) */}
+                <div className="space-y-1">
+                  <label htmlFor="profileImageUrl" className="text-on-surface-variant text-[10px] font-bold uppercase tracking-wider block">
+                    Or Paste Image URL
+                  </label>
+                  <input
+                    type="url"
+                    id="profileImageUrl"
+                    placeholder="https://example.com/avatar.jpg"
+                    value={profileImage.startsWith("data:") ? "" : profileImage}
+                    onChange={(e) => setProfileImage(e.target.value)}
+                    className="w-full bg-white border border-outline-variant-custom rounded p-2.5 text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-primary-container"
+                  />
+                </div>
 
-              {/* Image URL Input (Fallback/Alternative) */}
-              <div className="space-y-1">
-                <label htmlFor="profileImageUrl" className="text-on-surface-variant text-[10px] font-bold uppercase tracking-wider block">
-                  Or Paste Image URL
-                </label>
-                <input
-                  type="url"
-                  id="profileImageUrl"
-                  placeholder="https://example.com/avatar.jpg"
-                  value={profileImage.startsWith("data:") ? "" : profileImage}
-                  onChange={(e) => setProfileImage(e.target.value)}
-                  className="w-full bg-white border border-outline-variant-custom rounded p-2.5 text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-primary-container"
-                />
-              </div>
+                {/* Action Buttons */}
+                <div className="flex justify-end gap-3 pt-4 border-t border-surface-container">
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    onClick={closeSettings}
+                    disabled={isUpdatingProfile}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    type="submit"
+                    variant="primary"
+                    isLoading={isUpdatingProfile}
+                  >
+                    Save Changes
+                  </Button>
+                </div>
+              </form>
+            ) : (
+              <form onSubmit={handleChangePassword} className="space-y-4 text-xs font-semibold">
+                <div className="p-3 bg-surface-variant/20 rounded-lg border border-outline-variant-custom/10 text-[10px] text-on-surface-variant font-medium leading-relaxed">
+                  <span className="font-bold text-primary-container block mb-1">🔐 Password Credentials Settings</span>
+                  Update or set your password. If you registered using Google, you can leave Current Password empty to set a credentials password for the first time.
+                </div>
 
-              {/* Action Buttons */}
-              <div className="flex justify-end gap-3 pt-4 border-t border-surface-container">
-                <Button
-                  type="button"
-                  variant="secondary"
-                  onClick={() => setIsEditProfileOpen(false)}
-                  disabled={isUpdatingProfile}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  type="submit"
-                  variant="primary"
-                  isLoading={isUpdatingProfile}
-                >
-                  Save Changes
-                </Button>
-              </div>
-            </form>
+                {/* Current Password */}
+                <div className="space-y-1">
+                  <label htmlFor="currentPassword" className="text-on-surface-variant text-[10px] font-bold uppercase tracking-wider block">
+                    Current Password
+                  </label>
+                  <input
+                    type="password"
+                    id="currentPassword"
+                    placeholder="••••••••"
+                    value={currentPassword}
+                    onChange={(e) => setCurrentPassword(e.target.value)}
+                    className="w-full bg-white border border-outline-variant-custom rounded p-2.5 text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-primary-container"
+                  />
+                </div>
+
+                {/* New Password */}
+                <div className="space-y-1">
+                  <label htmlFor="newPassword" className="text-on-surface-variant text-[10px] font-bold uppercase tracking-wider block">
+                    New Password
+                  </label>
+                  <input
+                    type="password"
+                    id="newPassword"
+                    required
+                    placeholder="Min 6 characters"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    className="w-full bg-white border border-outline-variant-custom rounded p-2.5 text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-primary-container"
+                  />
+                </div>
+
+                {/* Confirm Password */}
+                <div className="space-y-1">
+                  <label htmlFor="confirmPassword" className="text-on-surface-variant text-[10px] font-bold uppercase tracking-wider block">
+                    Confirm New Password
+                  </label>
+                  <input
+                    type="password"
+                    id="confirmPassword"
+                    required
+                    placeholder="Re-enter new password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    className="w-full bg-white border border-outline-variant-custom rounded p-2.5 text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-primary-container"
+                  />
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex justify-end gap-3 pt-4 border-t border-surface-container">
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    onClick={closeSettings}
+                    disabled={isChangingPassword}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    type="submit"
+                    variant="primary"
+                    isLoading={isChangingPassword}
+                  >
+                    Update Password
+                  </Button>
+                </div>
+              </form>
+            )}
           </div>
         </div>
       )}
