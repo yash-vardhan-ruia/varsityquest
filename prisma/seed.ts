@@ -538,7 +538,7 @@ async function main() {
       type: CollegeType.GOVERNMENT,
       category: "Medical",
       overview: "AIIMS New Delhi is India's most prestigious medical research university and hospital. Established in 1956, it is highly renowned for its extremely low fees (almost free), outstanding clinical exposure, and selection of only the absolute top scorers of NEET UG.",
-      imageUrl: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=600&auto=format&fit=crop",
+      imageUrl: "https://images.unsplash.com/photo-1587351021355-a479a299d2f9?q=80&w=600&auto=format&fit=crop",
       website: "https://www.aiims.edu",
       courses: [
         { name: "MBBS (Bachelor of Medicine & Surgery)", duration: 5, fees: 1628, seats: 125 },
@@ -567,7 +567,7 @@ async function main() {
       type: CollegeType.PRIVATE,
       category: "Medical",
       overview: "CMC Vellore is a legendary private medical institution established in 1900, highly renowned for its service-oriented healthcare, state-of-the-art diagnostics, and highly competitive MBBS training.",
-      imageUrl: "https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?q=80&w=600&auto=format&fit=crop",
+      imageUrl: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=600&auto=format&fit=crop",
       website: "https://www.cmch-vellore.edu",
       courses: [
         { name: "MBBS", duration: 5, fees: 52000, seats: 100 },
@@ -596,7 +596,7 @@ async function main() {
       type: CollegeType.PRIVATE,
       category: "Medical",
       overview: "KMC Manipal is one of the top private medical colleges in India, boasting massive international recognition, an excellent high-fidelity simulation center, and highly modern hospital blocks.",
-      imageUrl: "https://images.unsplash.com/photo-1516549655169-df83a0774514?q=80&w=600&auto=format&fit=crop",
+      imageUrl: "https://images.unsplash.com/photo-1586773860418-d37222d8fce2?q=80&w=600&auto=format&fit=crop",
       website: "https://manipal.edu/kmc-manipal.html",
       courses: [
         { name: "MBBS", duration: 5, fees: 1780000, seats: 250 },
@@ -625,7 +625,7 @@ async function main() {
       type: CollegeType.GOVERNMENT,
       category: "Medical",
       overview: "MAMC is a premium public medical institution in New Delhi, connected to Lok Nayak Hospital, offering incredibly vast clinical practice exposure to its medical students.",
-      imageUrl: "https://images.unsplash.com/photo-1579684389782-64d84b5e901f?q=80&w=600&auto=format&fit=crop",
+      imageUrl: "https://images.unsplash.com/photo-1551076805-e1869033e561?q=80&w=600&auto=format&fit=crop",
       website: "https://www.mamc.ac.in",
       courses: [
         { name: "MBBS", duration: 5, fees: 15000, seats: 250 }
@@ -653,7 +653,7 @@ async function main() {
       type: CollegeType.GOVERNMENT,
       category: "Medical",
       overview: "KGMU is a historic and highly prestigious state medical university in Lucknow, famous for its grand British-era architecture, highly skilled doctors, and intensive clinical exposures.",
-      imageUrl: "https://images.unsplash.com/photo-1582750433449-64c656df1a80?q=80&w=600&auto=format&fit=crop",
+      imageUrl: "https://images.unsplash.com/photo-1551076805-e1869033e561?q=80&w=600&auto=format&fit=crop",
       website: "https://www.kgmu.org",
       courses: [
         { name: "MBBS", duration: 5, fees: 48000, seats: 250 },
@@ -682,7 +682,7 @@ async function main() {
       type: CollegeType.PRIVATE,
       category: "Medical",
       overview: "St. John's is a top-ranking private medical college on Sarjapur Road, Bengaluru, highly recognized for its rigorous ethics, values, and top-tier infrastructure.",
-      imageUrl: "https://images.unsplash.com/photo-1581594693702-fbdc51b2763b?q=80&w=600&auto=format&fit=crop",
+      imageUrl: "https://images.unsplash.com/photo-1586773860418-d37222d8fce2?q=80&w=600&auto=format&fit=crop",
       website: "https://www.stjohns.in",
       courses: [
         { name: "MBBS", duration: 5, fees: 628000, seats: 150 }
@@ -738,7 +738,7 @@ async function main() {
       type: CollegeType.GOVERNMENT,
       category: "Medical",
       overview: "AFMC Pune is a unique and elite military-medical institution. Managed by the Indian Armed Forces, students here serve as commission officers upon completion of their MBBS.",
-      imageUrl: "https://images.unsplash.com/photo-1579684389782-64d84b5e901f?q=80&w=600&auto=format&fit=crop",
+      imageUrl: "https://images.unsplash.com/photo-1587351021355-a479a299d2f9?q=80&w=600&auto=format&fit=crop",
       website: "https://afmc.nic.in",
       courses: [
         { name: "MBBS (Armed Forces)", duration: 5, fees: 32000, seats: 150 }
@@ -766,7 +766,7 @@ async function main() {
       type: CollegeType.GOVERNMENT,
       category: "Medical",
       overview: "MMC Chennai is the third oldest medical college in India. It is highly prestigious in South India, offering supreme patient exposure and deep clinical teachings.",
-      imageUrl: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=600&auto=format&fit=crop",
+      imageUrl: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=600&auto=format&fit=crop",
       website: "http://www.mmc.ac.in",
       courses: [
         { name: "MBBS", duration: 5, fees: 22000, seats: 250 }
@@ -794,7 +794,7 @@ async function main() {
       type: CollegeType.GOVERNMENT,
       category: "Medical",
       overview: "BMCRI is a premier state government medical college associated with four massive hospitals in Bengaluru, ensuring massive hands-on practice.",
-      imageUrl: "https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?q=80&w=600&auto=format&fit=crop",
+      imageUrl: "https://images.unsplash.com/photo-1586773860418-d37222d8fce2?q=80&w=600&auto=format&fit=crop",
       website: "https://www.bmcri.org",
       courses: [
         { name: "MBBS", duration: 5, fees: 60000, seats: 250 }
@@ -853,7 +853,7 @@ async function main() {
       type: CollegeType.GOVERNMENT,
       category: "Management",
       overview: "IIM Bangalore is a world-renowned business school located in the tech capital Bengaluru, famous for its stone architecture, outstanding digital tech integration, and top-tier placement results.",
-      imageUrl: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=600&auto=format&fit=crop",
+      imageUrl: "https://images.unsplash.com/photo-1527891751199-7225231a68dd?q=80&w=600&auto=format&fit=crop",
       website: "https://www.iimb.ac.in",
       courses: [
         { name: "PGP in Management (MBA)", duration: 2, fees: 1225000, seats: 400 }
@@ -881,7 +881,7 @@ async function main() {
       type: CollegeType.GOVERNMENT,
       category: "Management",
       overview: "IIM Calcutta is historically known as the 'Finance Campus' of India, boasting highly structured finance courses, a lovely 7-lakes campus, and top quantitative investment banking placements.",
-      imageUrl: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=600&auto=format&fit=crop",
+      imageUrl: "https://images.unsplash.com/photo-1498243691581-b145c3f54a5c?q=80&w=600&auto=format&fit=crop",
       website: "https://www.iimcal.ac.in",
       courses: [
         { name: "PGP in Management (MBA)", duration: 2, fees: 1200000, seats: 460 }
@@ -909,7 +909,7 @@ async function main() {
       type: CollegeType.PRIVATE,
       category: "Management",
       overview: "XLRI Jamshedpur is India's oldest business school, established in 1949. It is globally recognized as the absolute No. 1 institution for Human Resources Management (HRM) in Asia.",
-      imageUrl: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=600&auto=format&fit=crop",
+      imageUrl: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=600&auto=format&fit=crop",
       website: "https://www.xlri.ac.in",
       courses: [
         { name: "PGDM Human Resource Management", duration: 2, fees: 1180000, seats: 180 },
@@ -938,7 +938,7 @@ async function main() {
       type: CollegeType.GOVERNMENT,
       category: "Management",
       overview: "FMS Delhi is legendary as the 'Red Building of Dreams'. Affiliated with Delhi University, it is highly famous for its incredibly low tuition fees and placement figures matching IIM ABC, yielding the highest ROI in management education.",
-      imageUrl: "https://images.unsplash.com/photo-1507537297725-24a1c029d3ca?q=80&w=600&auto=format&fit=crop",
+      imageUrl: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=600&auto=format&fit=crop",
       website: "http://fms.edu",
       courses: [
         { name: "MBA Full Time", duration: 2, fees: 100000, seats: 290 }
@@ -994,7 +994,7 @@ async function main() {
       type: CollegeType.PRIVATE,
       category: "Management",
       overview: "SPJIMR is a highly ranked private business school in Andheri, Mumbai, unique for its value-based leadership programs like Abhyudaya and excellent PGDM placements.",
-      imageUrl: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=600&auto=format&fit=crop",
+      imageUrl: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=600&auto=format&fit=crop",
       website: "https://www.spjimr.org",
       courses: [
         { name: "PGDM Business Administration", duration: 2, fees: 1075000, seats: 240 }
@@ -1022,7 +1022,7 @@ async function main() {
       type: CollegeType.PRIVATE,
       category: "Management",
       overview: "MDI Gurugram is a premier private business school in Gurugram, India's corporate hub, ensuring excellent corporate consulting placements.",
-      imageUrl: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=600&auto=format&fit=crop",
+      imageUrl: "https://images.unsplash.com/photo-1498243691581-b145c3f54a5c?q=80&w=600&auto=format&fit=crop",
       website: "https://www.mdi.ac.in",
       courses: [
         { name: "PGDM (MBA Equivalent)", duration: 2, fees: 1120000, seats: 300 }
@@ -1078,7 +1078,7 @@ async function main() {
       type: CollegeType.GOVERNMENT,
       category: "Management",
       overview: "SJMSoM is the business school of IIT Bombay, offering a highly analytical MBA program with supreme tech-management and operations training.",
-      imageUrl: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=600&auto=format&fit=crop",
+      imageUrl: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=600&auto=format&fit=crop",
       website: "https://www.som.iitb.ac.in",
       courses: [
         { name: "Master of Management (MBA)", duration: 2, fees: 700000, seats: 120 }
@@ -1137,7 +1137,7 @@ async function main() {
       type: CollegeType.GOVERNMENT,
       category: "Law",
       overview: "NLU Delhi is a premier law university situated in Dwarka, New Delhi. Famous for hosting highly elite legal conferences and its top-tier corporate legal placements.",
-      imageUrl: "https://images.unsplash.com/photo-1505664194779-8bebcb95d539?q=80&w=600&auto=format&fit=crop",
+      imageUrl: "https://images.unsplash.com/photo-1505664194779-8beaceb93744?q=80&w=600&auto=format&fit=crop",
       website: "https://nludelhi.ac.in",
       courses: [
         { name: "B.A., LL.B. (Hons)", duration: 5, fees: 280000, seats: 120 }
@@ -1165,7 +1165,7 @@ async function main() {
       type: CollegeType.GOVERNMENT,
       category: "Law",
       overview: "NALSAR is a highly prestigious law university on a sprawling lakeside campus in Shameerpet, Hyderabad, celebrated for its brilliant academic freedom.",
-      imageUrl: "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=600&auto=format&fit=crop",
+      imageUrl: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=600&auto=format&fit=crop",
       website: "https://www.nalsar.ac.in",
       courses: [
         { name: "B.A., LL.B. (Hons)", duration: 5, fees: 260000, seats: 130 }
@@ -1249,7 +1249,7 @@ async function main() {
       type: CollegeType.PRIVATE,
       category: "Law",
       overview: "SLS Pune is a premium private law school under Symbiosis International University, famous for its outstanding corporate law firms internships.",
-      imageUrl: "https://images.unsplash.com/photo-1505664194779-8bebcb95d539?q=80&w=600&auto=format&fit=crop",
+      imageUrl: "https://images.unsplash.com/photo-1505664194779-8beaceb93744?q=80&w=600&auto=format&fit=crop",
       website: "https://www.symlaw.ac.in",
       courses: [
         { name: "B.A. LL.B. / B.B.A. LL.B.", duration: 5, fees: 400000, seats: 240 }
@@ -1277,7 +1277,7 @@ async function main() {
       type: CollegeType.GOVERNMENT,
       category: "Law",
       overview: "GNLU Gandhinagar is a highly reputed national law university in Gujarat, famous for its massive sports infrastructure, legal research, and corporate placements.",
-      imageUrl: "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=600&auto=format&fit=crop",
+      imageUrl: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=600&auto=format&fit=crop",
       website: "https://www.gnlu.ac.in",
       courses: [
         { name: "B.A., LL.B. (Hons)", duration: 5, fees: 250000, seats: 180 }
@@ -1336,7 +1336,7 @@ async function main() {
       type: CollegeType.GOVERNMENT,
       category: "Commerce",
       overview: "SRCC is widely recognized as the absolute No. 1 college for Commerce in India. Located in Delhi University North Campus, it holds a legendary reputation for its B.Com (Hons) placements and highly selective cut-offs.",
-      imageUrl: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=600&auto=format&fit=crop",
+      imageUrl: "https://images.unsplash.com/photo-1498243691581-b145c3f54a5c?q=80&w=600&auto=format&fit=crop",
       website: "https://www.srcc.edu",
       courses: [
         { name: "B.Com (Hons)", duration: 3, fees: 30000, seats: 600 },
