@@ -44,8 +44,8 @@ const courseSchema = z.object({
     .int()
     .min(1, "Duration must be at least 1 year")
     .max(6, "Duration cannot exceed 6 years"),
-  fees: z.number().positive("Fees must be a positive number"),
-  seats: z.number().positive("Seats must be a positive number").optional(),
+  fees: z.number().nonnegative("Fees must be a non-negative number"),
+  seats: z.number().int().nonnegative("Seats must be a non-negative number").optional(),
 });
 
 const placementSchema = z.object({
@@ -95,8 +95,8 @@ export const createCollegeSchema = z.object({
     .string()
     .min(20, "Overview must be at least 20 characters")
     .max(5000, "Overview cannot exceed 5000 characters"),
-  imageUrl: z.string().url("Image URL must be a valid URL").optional(),
-  website: z.string().url("Website must be a valid URL").optional(),
+  imageUrl: z.string().optional().or(z.literal("")),
+  website: z.string().optional().or(z.literal("")),
   courses: z.array(courseSchema).optional(),
   placement: placementSchema.optional(),
 });

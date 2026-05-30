@@ -69,6 +69,18 @@ export async function POST(req: Request) {
 
     const userId = session.user.id;
 
+    // Verify user exists in database to prevent foreign key errors from stale session cookies
+    const userExists = await prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!userExists) {
+      return NextResponse.json(
+        { success: false, error: "Session stale due to a database reset. Please log out and sign in again." },
+        { status: 401 }
+      );
+    }
+
     // Check if the college exists
     const collegeExists = await prisma.college.findUnique({
       where: { id: collegeId },

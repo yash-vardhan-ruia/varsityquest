@@ -114,6 +114,21 @@ export default function AddCollegePage() {
     setCourses(updated);
   };
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 1024 * 1024) {
+        toast.error("Image must be smaller than 1MB");
+        return;
+      }
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImageUrl(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -134,7 +149,14 @@ export default function AddCollegePage() {
       if (established) payload.established = parseInt(established, 10);
       if (rating) payload.rating = parseFloat(rating);
       if (imageUrl.trim()) payload.imageUrl = imageUrl.trim();
-      if (website.trim()) payload.website = website.trim();
+      
+      if (website.trim()) {
+        let formattedWebsite = website.trim();
+        if (!/^https?:\/\//i.test(formattedWebsite)) {
+          formattedWebsite = `https://${formattedWebsite}`;
+        }
+        payload.website = formattedWebsite;
+      }
 
       // Filter out empty courses
       const validCourses = courses.filter((c) => c.name.trim() !== "");
@@ -174,6 +196,12 @@ export default function AddCollegePage() {
       const data = await res.json();
 
       if (!res.ok) {
+        if (data.details) {
+          const fieldErrors = Object.entries(data.details)
+            .map(([field, msgs]) => `${field}: ${(msgs as string[]).join(", ")}`)
+            .join(" | ");
+          throw new Error(`Validation failed: ${fieldErrors}`);
+        }
         throw new Error(data.error || "Failed to add college");
       }
 
@@ -391,39 +419,88 @@ export default function AddCollegePage() {
               </div>
             </div>
 
-            {/* URLs */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label htmlFor="imageUrl" className={labelClass}>
-                  Image URL
-                </label>
-                <div className="relative">
-                  <Globe className="absolute left-3 top-2.5 h-4 w-4 text-on-surface-variant" />
-                  <input
-                    id="imageUrl"
-                    type="url"
-                    value={imageUrl}
-                    onChange={(e) => setImageUrl(e.target.value)}
-                    placeholder="https://images.unsplash.com/..."
-                    className={inputClass}
-                  />
+            {/* College Image Upload or Paste URL */}
+            <div className="space-y-3 bg-surface-low/30 p-5 rounded-2xl border border-outline-variant-custom/30">
+              <label className="block text-xs font-bold text-on-surface-variant">
+                College Campus Photo
+              </label>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Upload File Option */}
+                <div className="flex flex-col items-center justify-center border-2 border-dashed border-outline-variant-custom/40 rounded-xl p-4 bg-white hover:bg-surface-variant/5 transition-all text-center gap-2 min-h-[120px]">
+                  {imageUrl ? (
+                    <div className="relative w-full aspect-video rounded-lg overflow-hidden border border-outline-variant-custom shadow-sm">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={imageUrl}
+                        alt="College Preview"
+                        className="w-full h-full object-cover"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setImageUrl("")}
+                        className="absolute top-2 right-2 bg-error hover:bg-error-hover text-white rounded-full p-1 text-[10px] font-bold shadow-md animate-fade-in"
+                        aria-label="Remove image"
+                      >
+                        ✕ Remove
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="py-2 animate-fade-in">
+                      <GraduationCap className="mx-auto h-7 w-7 text-on-surface-variant mb-2" />
+                      <label className="cursor-pointer text-xs font-bold text-primary-container hover:underline block mb-1">
+                        Upload Image File
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleFileChange}
+                          className="hidden"
+                        />
+                      </label>
+                      <span className="text-[9px] text-on-surface-variant font-medium">Max size 1MB (PNG, JPG, WebP)</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Paste URL Option */}
+                <div className="flex flex-col justify-center gap-3">
+                  <div className="space-y-1">
+                    <label htmlFor="imageUrl" className="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant block">
+                      Or Paste Image URL
+                    </label>
+                    <div className="relative">
+                      <Globe className="absolute left-3 top-2.5 h-4 w-4 text-on-surface-variant" />
+                      <input
+                        id="imageUrl"
+                        type="url"
+                        value={imageUrl.startsWith("data:") ? "" : imageUrl}
+                        onChange={(e) => setImageUrl(e.target.value)}
+                        placeholder="https://images.unsplash.com/..."
+                        className={inputClass}
+                      />
+                    </div>
+                  </div>
+                  <p className="text-[9px] text-on-surface-variant font-medium leading-relaxed">
+                    Select a local campus photo to upload directly, or paste a link from a photo resource.
+                  </p>
                 </div>
               </div>
-              <div>
-                <label htmlFor="website" className={labelClass}>
-                  College Website
-                </label>
-                <div className="relative">
-                  <Globe className="absolute left-3 top-2.5 h-4 w-4 text-on-surface-variant" />
-                  <input
-                    id="website"
-                    type="url"
-                    value={website}
-                    onChange={(e) => setWebsite(e.target.value)}
-                    placeholder="https://www.college.ac.in"
-                    className={inputClass}
-                  />
-                </div>
+            </div>
+
+            {/* Website URL */}
+            <div>
+              <label htmlFor="website" className={labelClass}>
+                College Website
+              </label>
+              <div className="relative">
+                <Globe className="absolute left-3 top-2.5 h-4 w-4 text-on-surface-variant" />
+                <input
+                  id="website"
+                  type="text"
+                  value={website}
+                  onChange={(e) => setWebsite(e.target.value)}
+                  placeholder="e.g. www.college.ac.in"
+                  className={inputClass}
+                />
               </div>
             </div>
 

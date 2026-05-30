@@ -27,6 +27,30 @@ interface SavedComparisonItem {
   }[];
 }
 
+function getShortName(fullName: string): string {
+  const parenMatch = fullName.match(/\(([^)]+)\)\s*(.*)/i);
+  if (parenMatch) {
+    const acronym = parenMatch[1];
+    const location = parenMatch[2];
+    if (acronym && location) {
+      return `${acronym} ${location.trim()}`;
+    }
+    if (acronym) {
+      return acronym;
+    }
+  }
+
+  let name = fullName;
+  name = name.replace(/Indian Institute of Technology/gi, "IIT");
+  name = name.replace(/Indian Institute of Management/gi, "IIM");
+  name = name.replace(/Vellore Institute of Technology/gi, "VIT");
+  name = name.replace(/Birla Institute of Technology and Science/gi, "BITS");
+  name = name.replace(/All India Institute of Medical Sciences/gi, "AIIMS");
+  name = name.replace(/National Institute of Technology/gi, "NIT");
+  
+  return name.trim();
+}
+
 export default function DashboardPage() {
   const { data: session, status, update } = useSession();
   const router = useRouter();
@@ -370,7 +394,7 @@ export default function DashboardPage() {
                                 />
                               </>
                             )}
-                            <span className="truncate max-w-[100px]">{college.name}</span>
+                            <span className="truncate max-w-[120px]">{getShortName(college.name)}</span>
                           </div>
                         ))}
                       </div>
