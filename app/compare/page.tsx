@@ -4,7 +4,7 @@ import React, { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
-import { ArrowLeft, Share2, Bookmark, BarChart2, Star, IndianRupee, GraduationCap, X } from "lucide-react";
+import { ArrowLeft, Share2, Bookmark, BarChart2, Star, IndianRupee, GraduationCap, X, Building2 } from "lucide-react";
 import toast from "react-hot-toast";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -44,6 +44,45 @@ interface CollegeCompare {
   reviews: unknown[];
 }
 
+const categoryColorMap: Record<string, { gradient: string; iconColor: string; textColor: string; badgeClass: string }> = {
+  Engineering: {
+    gradient: "from-teal-500/10 to-teal-600/20",
+    iconColor: "text-teal-600/60",
+    textColor: "text-teal-700/80",
+    badgeClass: "bg-teal-50 text-teal-700 border border-teal-200/60",
+  },
+  Medical: {
+    gradient: "from-emerald-500/10 to-emerald-600/20",
+    iconColor: "text-emerald-600/60",
+    textColor: "text-emerald-700/80",
+    badgeClass: "bg-emerald-50 text-emerald-700 border border-emerald-200/60",
+  },
+  Management: {
+    gradient: "from-blue-500/10 to-blue-600/20",
+    iconColor: "text-blue-600/60",
+    textColor: "text-blue-700/80",
+    badgeClass: "bg-blue-50 text-blue-700 border border-blue-200/60",
+  },
+  Law: {
+    gradient: "from-purple-500/10 to-purple-600/20",
+    iconColor: "text-purple-600/60",
+    textColor: "text-purple-700/80",
+    badgeClass: "bg-purple-50 text-purple-700 border border-purple-200/60",
+  },
+  Arts: {
+    gradient: "from-amber-500/10 to-amber-600/20",
+    iconColor: "text-amber-600/60",
+    textColor: "text-amber-700/80",
+    badgeClass: "bg-amber-50 text-amber-700 border border-amber-200/60",
+  },
+  Commerce: {
+    gradient: "from-rose-500/10 to-rose-600/20",
+    iconColor: "text-rose-600/60",
+    textColor: "text-rose-700/80",
+    badgeClass: "bg-rose-50 text-rose-700 border border-rose-200/60",
+  },
+};
+
 function CompareContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -55,6 +94,7 @@ function CompareContent() {
 
   const [label, setLabel] = useState("");
   const [isSaving, setIsSaving] = useState(false);
+  const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
 
   // Fetch comparison data
   const { data: comparisonResponse, isLoading, error } = useQuery<{
@@ -248,12 +288,42 @@ function CompareContent() {
                   {colleges.map((college) => (
                     <th key={college.id} className="p-4 font-bold border-l border-surface-container">
                       <div className="space-y-2">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={college.imageUrl || defaultImage}
-                          alt={college.name}
-                          className="w-full h-24 object-cover rounded-sm border border-outline-variant-custom/30"
-                        />
+                        {/* College image with dynamic brand-colored gradient fallback */}
+                        <div className="relative w-full h-24 rounded-sm overflow-hidden bg-surface-container flex items-center justify-center border border-outline-variant-custom/30 shadow-sm">
+                          {!imageErrors[college.id] && college.imageUrl ? (
+                            /* eslint-disable-next-line @next/next/no-img-element */
+                            <img
+                              src={college.imageUrl}
+                              alt={college.name}
+                              className="w-full h-full object-cover"
+                              onError={() =>
+                                setImageErrors((prev) => ({
+                                  ...prev,
+                                  [college.id]: true,
+                                }))
+                              }
+                            />
+                          ) : (
+                            <div
+                              className={`absolute inset-0 bg-gradient-to-br ${
+                                (categoryColorMap[college.category] || categoryColorMap.Engineering).gradient
+                              } flex flex-col items-center justify-center p-2 text-center`}
+                            >
+                              <Building2
+                                className={`w-8 h-8 ${
+                                  (categoryColorMap[college.category] || categoryColorMap.Engineering).iconColor
+                                } mb-1`}
+                              />
+                              <span
+                                className={`text-[8px] uppercase tracking-wider font-bold ${
+                                  (categoryColorMap[college.category] || categoryColorMap.Engineering).textColor
+                                }`}
+                              >
+                                {college.category}
+                              </span>
+                            </div>
+                          )}
+                        </div>
                         <h3 className="font-bold text-sm text-on-surface line-clamp-2 leading-tight">
                           {college.name}
                         </h3>
